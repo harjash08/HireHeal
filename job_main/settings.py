@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_$szqte77nwq*gjhk$ub6p+p8njun-b_2ohpjx3#$_%%86ep(j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.onrender.com']
 
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_HOST_USER='harjashkaurbaniya@gmail.com'
