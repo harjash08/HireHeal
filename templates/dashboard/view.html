@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-layout">
+    {% include 'dashboard/sidebar.html' %}
+
+    <div class="main-content-wrapper">
+        <div class="main_content">
+            <div class="responsive-container">
+                
+                <!-- Job Header - FULLY RESPONSIVE -->
+                <section class="job-hero">
+                    <div class="job-hero-content">
+                        <div class="job-title-wrapper">
+                            <h1 class="job-title">{{ job.job_title }}</h1>
+                            <h2 class="job-company">{{ job.company_name }}</h2>
+                        </div>
+                        <div class="status-wrapper">
+                            <span class="status-badge {% if job.is_active %}active{% else %}closed{% endif %}">
+                                {% if job.is_active %}Active{% else %}Closed{% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- INFO TAGS - MOBILE STACKS PERFECTLY -->
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">📍</div>
+                            <div class="info-text">
+                                <span class="info-label">Location</span>
+                                <span class="info-value">{{ job.location }}</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">💼</div>
+                            <div class="info-text">
+                                <span class="info-label">Type</span>
+                                <span class="info-value">{{ job.job_type }}</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">🏠</div>
+                            <div class="info-text">
+                                <span class="info-label">Work Mode</span>
+                                <span class="info-value">{{ job.work_mode }}</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">💰</div>
+                            <div class="info-text">
+                                <span class="info-label">Salary</span>
+                                <span class="info-value">${{ job.salary_min }} - ${{ job.salary_max }}</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-text">
+                                <span class="info-label">Deadline</span>
+                                <span class="info-value">{{ job.application_deadline|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">⏱️</div>
+                            <div class="info-text">
+                                <span class="info-label">Experience</span>
+                                <span class="info-value">{{ job.experience_required }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Description Card -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h3>Job Description</h3>
+                    </div>
+                    <div class="section-content">
+                        {{ job.description|linebreaks }}
+                    </div>
+                </section>
+
+                <!-- Responsibilities Card -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h3>Responsibilities</h3>
+                    </div>
+                    <div class="section-content">
+                        {{ job.responsibility|linebreaks }}
+                    </div>
+                </section>
+
+                <!-- Skills Card - NOW FULLY RESPONSIVE -->
+                {% comment %} <section class="content-section skills-section">
+                    <div class="section-header">
+                        <h3>Required Skills</h3>
+                    </div>
+                    <div class="skills-wrapper">
+                        
+                                <span class="skill-chip">{{ job.skills }}</span>
+                            
+                        
+                    </div>
+                </section> {% endcomment %}
+                <div style="margin-bottom: 2rem;">
+    <h3 style="color: #333; font-size: clamp(1.3rem, 4vw, 1.5rem); margin-bottom: 1rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.75rem; font-weight: 700;">Skills Required</h3>
+    <div style="
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 0.6rem; 
+        padding: 0.5rem 0;
+        max-width: 100%;
+        word-break: break-word;
+    ">
+        <span style="
+            background:  #f8f9ff;
+            color: #888; 
+            border-left: 4px solid #667eea;
+            padding: 0.45rem 1rem; 
+            font-size: clamp(0.8rem, 2.3vw, 0.9rem); 
+            font-weight: 500; 
+            border-radius: 20px; 
+            line-height: 1.4;
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: 100%;
+            hyphens: auto;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            box-sizing: border-box;
+        ">
+            {{ job.skills }}
+        </span>
+    </div>
+</div>
+
+                <!-- Application Details - CARDS STACK PERFECTLY -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h3>Application Details</h3>
+                    </div>
+                    <div class="app-details-wrapper">
+                        <div class="detail-row">
+                            <div class="detail-card">
+                                <div class="detail-icon">📋</div>
+                                <div class="detail-content">
+                                    <h4>Method</h4>
+                                    <p>{{ job.application_method|title }}</p>
+                                </div>
+                            </div>
+                            {% if job.application_method == 'email' %}
+                            <div class="detail-card">
+                                <div class="detail-icon">📧</div>
+                                <div class="detail-content">
+                                    <h4>Email</h4>
+                                    <p><a href="mailto:{{ job.application_email }}">{{ job.application_email }}</a></p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-card full-width">
+                                <div class="detail-icon">⏰</div>
+                                <div class="detail-content">
+                                    <h4>Deadline</h4>
+                                    <p>{{ job.application_deadline|date:"F d, Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+               
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* BASE RESPONSIVE GRID */
+.responsive-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+/* MAIN CONTENT SECTIONS */
+.job-hero,
+.content-section,
+.footer-info {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.job-hero {
+    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    padding: clamp(2rem, 5vw, 3rem);
+}
+
+.content-section {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* JOB HERO RESPONSIVE */
+.job-hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.job-title-wrapper {
+    flex: 1;
+    min-width: 0;
+}
+
+.job-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.job-company {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    color: #333;
+    margin: 0;
+    font-weight: 600;
+}
+
+.status-wrapper {
+    flex-shrink: 0;
+}
+
+.status-badge {
+    display: inline-flex;
+    padding: clamp(0.6rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.status-badge.active { background: #10b981; color: white; }
+.status-badge.closed { background: #ef4444; color: white; }
+
+/* INFO GRID - MOBILE STACKS 1 COLUMN */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: rgba(255,255,255,0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(102,126,234,0.1);
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102,126,234,0.15);
+}
+
+.info-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(102,126,234,0.1);
+}
+
+.info-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.info-value {
+    display: block;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    font-weight: 600;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* SECTION HEADERS */
+.section-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #667eea;
+}
+
+.section-header h3 {
+    color: #667eea;
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    margin: 0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-content {
+    color: #555;
+    line-height: 1.7;
+    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+}
+
+/* SKILLS - MOBILE WRAPS PERFECTLY */
+.skills-section {
+    background: linear-gradient(135deg, #f8faff 0%, #f0f5ff 100%);
+}
+
+.skills-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 1rem;
+}
+
+.skill-chip {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 25px;
+    font-size: clamp(0.8rem, 2.2vw, 0.95rem);
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+    transition: all 0.3s ease;
+}
+
+.skill-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+}
+
+.empty-state {
+    padding: 2rem;
+    text-align: center;
+    color: #888;
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+/* APPLICATION DETAILS - CARDS STACK MOBILE */
+.app-details-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.detail-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.detail-card {
+    flex: 1;
+    min-width: 280px;
+    background: rgba(255,255,255,0.7);
+    padding: 1.75rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    border: 1px solid rgba(102,126,234,0.1);
+    transition: all 0.3s ease;
+}
+
+.detail-card.full-width {
+    min-width: 100%;
+    flex-direction: column;
+    text-align: center;
+}
+
+.detail-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(102,126,234,0.15);
+}
+
+.detail-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.detail-content h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.detail-content p {
+    margin: 0;
+    color: #666;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.detail-content a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.detail-content a:hover {
+    text-decoration: underline;
+}
+
+/* FOOTER INFO */
+.footer-info {
+    background: #f8f9fa;
+    padding: clamp(1.5rem, 4vw, 2rem);
+    text-align: center;
+}
+
+.timestamp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    color: #666;
+}
+
+.timestamp span {
+    font-weight: 500;
+}
+
+/* MOBILE PERFECT BREAKPOINTS */
+@media (max-width: 768px) {
+    .job-hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+    }
+    
+    .detail-card {
+        min-width: 100%;
+    }
+    
+    .skills-wrapper {
+        justify-content: center;
+    }
+    
+    .skill-chip {
+        flex: 1 1 45%;
+        text-align: center;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-container {
+        padding: 0 1rem;
+    }
+    
+    .job-hero,
+    .content-section {
+        padding: 1.5rem 1.25rem;
+        margin-bottom: 1.5rem;
+        border-radius: 16px;
+    }
+    
+    .info-item {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .detail-card {
+        padding: 1.25rem;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .skill-chip {
+        flex: 1 1 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .timestamp {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* ENSURE NO OVERFLOW */
+* {
+    box-sizing: border-box;
+}
+
+@media (max-width: 400px) {
+    .info-icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.25rem;
+    }
+}
+</style>
+
+{% endblock %}

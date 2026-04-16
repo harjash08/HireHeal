@@ -1,0 +1,396 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{% include 'dashboard/sidebar.html' %}
+
+<div class="edit-wrapper">
+    <div class="responsive-container">
+        <div class="edit-card">
+            <div class="form-header">
+                <div class="header-content">
+                    <h1 class="form-title">Edit Job Posting</h1>
+                    <div class="form-badge">Update {{ job.job_title|default:"Your Job" }}</div>
+                </div>
+                <div class="form-subtitle">Modify the job details and save changes</div>
+            </div>
+            
+            <form method='POST' action="{% url 'edit' job.id %}" class="job-edit-form">
+                {% csrf_token %}
+                {{ form|crispy }}
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn primary">
+                        <span class="btn-text">Update Job</span>
+                        <span class="btn-icon">✏️</span>
+                    </button>
+                    <a href="{% url 'manage_job' %}" class="cancel-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+/* MAIN RESPONSIVE WRAPPER */
+.edit-wrapper {
+    min-height: 100vh;
+    padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+    background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 50%, #f3f4f6 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.edit-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(102,126,234,0.3), transparent);
+}
+
+.responsive-container {
+    max-width: 850px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+/* PERFECT RESPONSIVE EDIT CARD */
+.edit-card {
+    background: #fff;
+    border-radius: 28px;
+    box-shadow: 0 35px 80px rgba(0,0,0,0.12);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.6);
+    backdrop-filter: blur(20px);
+    animation: slideUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* HEADER - RESPONSIVE */
+.form-header {
+    padding: clamp(2.5rem, 7vw, 3.5rem) clamp(2.5rem, 7vw, 3.5rem) clamp(2rem, 5vw, 2.5rem);
+    background: linear-gradient(135deg, #667eea20 0%, #764ba225 100%);
+    border-bottom: 1px solid rgba(102,126,234,0.15);
+    text-align: center;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-title {
+   color: #5a6fd8;
+    font-size: clamp(2rem, 5.5vw, 2.75rem);
+    font-weight: 900;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.form-badge {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+}
+
+.form-subtitle {
+    color: #64748b;
+    font-size: clamp(1.05rem, 3vw, 1.25rem);
+    margin: 0;
+    font-weight: 400;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* CRISPY FORM - MOBILE PERFECT */
+.job-edit-form {
+    padding: clamp(2.5rem, 7vw, 4rem);
+}
+
+/* CRISPY FORM ELEMENTS */
+div.form-group {
+    margin-bottom: clamp(2rem, 5vw, 2.75rem) !important;
+}
+
+label {
+    color: #1e293b !important;
+    font-weight: 700 !important;
+    font-size: clamp(1rem, 2.8vw, 1.125rem) !important;
+    margin-bottom: 1rem !important;
+    display: block !important;
+    letter-spacing: -0.01em;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+input[type="url"],
+select,
+textarea {
+    width: 100% !important;
+    padding: clamp(1rem, 3vw, 1.375rem) clamp(1.25rem, 4vw, 1.75rem) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    font-size: clamp(1rem, 2.8vw, 1.125rem) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    background: linear-gradient(145deg, #ffffff, #f8fafc) !important;
+    box-shadow: 
+        0 4px 15px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.8) !important;
+    appearance: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none !important;
+    border-color: #667eea !important;
+    box-shadow: 
+        0 0 0 4px rgba(102,126,234,0.15),
+        0 12px 35px rgba(102,126,234,0.2) !important;
+    transform: translateY(-2px) !important;
+}
+
+textarea {
+    resize: vertical !important;
+    min-height: clamp(140px, 20vh, 180px) !important;
+    line-height: 1.6 !important;
+}
+
+/* SELECT DROPDOWN */
+select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
+    background-position: right 0.75rem center !important;
+    background-repeat: no-repeat !important;
+    background-size: 1.25em 1.25em !important;
+    padding-right: 3rem !important;
+    cursor: pointer !important;
+}
+
+/* CRISPY ERRORS - RESPONSIVE */
+.text-danger,
+.has-error .form-control {
+    border-color: #ef4444 !important;
+}
+
+.text-danger {
+    color: #ef4444 !important;
+    font-size: clamp(0.875rem, 2.2vw, 0.95rem) !important;
+    margin-top: 0.75rem !important;
+    font-weight: 500 !important;
+}
+
+.has-error input,
+.has-error select,
+.has-error textarea {
+    box-shadow: 0 0 0 4px rgba(239,68,68,0.15) !important;
+}
+
+/* FORM CHECKBOXES/RADIO */
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem !important;
+    transition: all 0.3s ease;
+}
+
+.form-check:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.form-check-input {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    flex-shrink: 0;
+}
+
+/* BUTTONS SECTION */
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: clamp(2.5rem, 6vw, 3.5rem);
+    padding-top: clamp(2rem, 5vw, 2.5rem);
+    border-top: 1px solid #e2e8f0;
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.875rem;
+    padding: clamp(1.125rem, 3.2vw, 1.375rem) clamp(2.5rem, 7vw, 3.5rem);
+    border-radius: 20px;
+    font-size: clamp(1.125rem, 3vw, 1.25rem);
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    min-height: 60px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.submit-btn.primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 15px 35px rgba(102,126,234,0.4);
+}
+
+.submit-btn.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 25px 50px rgba(102,126,234,0.5);
+}
+
+.submit-btn.primary:active {
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 2.8vw, 1.125rem) clamp(2rem, 5vw, 2.5rem);
+    background: #f8fafc;
+    color: #64748b;
+    text-decoration: none;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.8vw, 1.125rem);
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.btn-text {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.btn-icon {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+}
+
+.submit-btn:hover .btn-icon {
+    transform: scale(1.1);
+}
+
+/* MOBILE OPTIMIZATIONS */
+@media (max-width: 768px) {
+    .edit-wrapper {
+        padding: clamp(2rem, 8vw, 3rem) 1.25rem;
+    }
+    
+    .job-edit-form {
+        padding: 2rem 1.5rem;
+    }
+    
+    .form-header {
+        padding: 2.5rem 2rem 2rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .submit-btn,
+    .cancel-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-container {
+        margin: 0 -0.75rem;
+    }
+    
+    .edit-card {
+        border-radius: 24px;
+        margin: 0 -0.75rem;
+    }
+    
+    .job-edit-form {
+        padding: 1.75rem 1.25rem;
+    }
+}
+
+/* CRISPY HELP TEXT */
+.help-block {
+    font-size: clamp(0.875rem, 2.2vw, 0.975rem) !important;
+    color: #6b7280 !important;
+    margin-top: 0.75rem !important;
+    line-height: 1.5 !important;
+}
+
+/* iOS ZOOM FIX */
+input,
+select {
+    font-size: 16px !important;
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+    .edit-card {
+        background: #1e293b;
+        border-color: #334155;
+    }
+    
+    label {
+        color: #f1f5f9 !important;
+    }
+    
+    input,
+    select,
+    textarea {
+        background: #334155 !important;
+        border-color: #475569 !important;
+        color: #f1f5f9 !important;
+    }
+    
+    .form-subtitle,
+    .help-block {
+        color: #94a3b8 !important;
+    }
+}
+</style>
+
+{% endblock %}

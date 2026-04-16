@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{% include 'dashboard/sidebar.html' %}
+
+<div class="form-wrapper">
+    <div class="responsive-container">
+        <div class="form-card">
+            <div class="form-header">
+                <h2 class="form-title">Post a New Job</h2>
+                <div class="form-subtitle">Fill in the details to create your job posting</div>
+            </div>
+            
+            <form method='POST' action="{% url 'post_jobs' %}" class="job-form">
+                {% csrf_token %}
+                {{ form|crispy }}
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">
+                        <span class="btn-text">Post Job</span>
+                        <span class="btn-icon">➕</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+/* MAIN RESPONSIVE WRAPPER */
+.form-wrapper {
+    min-height: 100vh;
+    padding: clamp(1rem, 4vw, 2.5rem) clamp(1rem, 5vw, 3rem);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.responsive-container {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* PERFECT RESPONSIVE FORM CARD */
+.form-card {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(20px);
+    animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* FORM HEADER - RESPONSIVE */
+.form-header {
+    padding: clamp(2rem, 6vw, 3rem) clamp(2rem, 6vw, 3rem) 0;
+    text-align: center;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border-bottom: 1px solid rgba(102,126,234,0.1);
+    padding-bottom: clamp(1.5rem, 4vw, 2rem);
+}
+
+.form-title {
+    color: #5a6fd8;
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-weight: 800;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.form-subtitle {
+    color: #718096;
+    font-size: clamp(1rem, 2.8vw, 1.25rem);
+    margin: 0;
+    font-weight: 400;
+}
+
+/* CRISPY FORM RESPONSIVE CONTAINER */
+.job-form {
+    padding: clamp(2rem, 6vw, 3rem);
+}
+
+/* CRISPY FORM INPUTS - MOBILE PERFECT */
+div.form-group {
+    margin-bottom: clamp(1.5rem, 4vw, 2rem) !important;
+}
+
+label {
+    color: #2d3748 !important;
+    font-weight: 600 !important;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem) !important;
+    margin-bottom: 0.75rem !important;
+    display: block !important;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+input[type="url"],
+select,
+textarea {
+    width: 100% !important;
+    padding: clamp(0.875rem, 2.5vw, 1.25rem) clamp(1rem, 3vw, 1.5rem) !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    font-size: clamp(0.95rem, 2.5vw, 1.05rem) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    background: #fff !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none !important;
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 4px rgba(102,126,234,0.1), 0 10px 30px rgba(102,126,234,0.15) !important;
+    transform: translateY(-2px) !important;
+}
+
+textarea {
+    resize: vertical !important;
+    min-height: 120px !important;
+}
+
+/* CRISPY FORM ERRORS - RESPONSIVE */
+.text-danger {
+    color: #e53e3e !important;
+    font-size: 0.875rem !important;
+    margin-top: 0.5rem !important;
+    display: block !important;
+}
+
+.has-error .form-control {
+    border-color: #e53e3e !important;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important;
+}
+
+/* RESPONSIVE CHECKBOX/RADIO */
+.form-check {
+    margin-bottom: 1.25rem !important;
+    padding-left: 0 !important;
+}
+
+.form-check-input {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    margin-right: 0.75rem !important;
+    margin-top: 0.125rem !important;
+}
+
+/* BUTTON - FULL WIDTH MOBILE */
+.form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(2rem, 5vw, 3rem);
+    padding-top: clamp(1.5rem, 4vw, 2rem);
+    border-top: 1px solid #e2e8f0;
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: clamp(1rem, 3vw, 1.25rem) clamp(2rem, 6vw, 3rem) !important;
+    border-radius: 16px !important;
+    font-size: clamp(1rem, 2.8vw, 1.125rem) !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    box-shadow: 0 10px 30px rgba(102,126,234,0.4) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    min-height: 56px !important;
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 20px 40px rgba(102,126,234,0.5) !important;
+}
+
+.submit-btn:active {
+    transform: translateY(-1px) !important;
+}
+
+.btn-text {
+    font-weight: 700;
+}
+
+.btn-icon {
+    font-size: 1.1em;
+    transition: transform 0.3s ease;
+}
+
+.submit-btn:hover .btn-icon {
+    transform: scale(1.1);
+}
+
+/* MOBILE SPECIFIC OPTIMIZATIONS */
+@media (max-width: 768px) {
+    .form-wrapper {
+        padding: clamp(1.5rem, 8vw, 2rem) 1rem;
+    }
+    
+    .job-form {
+        padding: 1.5rem 1.25rem;
+    }
+    
+    .form-header {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    input,
+    select,
+    textarea {
+        padding: 1rem 1.25rem !important;
+        font-size: 1rem !important;
+    }
+    
+    .form-check {
+        padding: 1rem !important;
+        background: rgba(102,126,234,0.03);
+        border-radius: 12px;
+        margin-bottom: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-container {
+        margin: 0 -0.5rem;
+    }
+    
+    .form-card {
+        border-radius: 20px;
+        margin: 0 -0.5rem;
+    }
+    
+    .job-form {
+        padding: 1.5rem 1rem;
+    }
+    
+    .form-header {
+        padding: 1.75rem 1.25rem 1.25rem;
+    }
+}
+
+/* DARK MODE SUPPORT */
+@media (prefers-color-scheme: dark) {
+    .form-card {
+        background: #1a202c;
+        border-color: #2d3748;
+    }
+    
+    .form-header {
+        background: rgba(102,126,234,0.1);
+    }
+    
+    label {
+        color: #e2e8f0 !important;
+    }
+    
+    input,
+    select,
+    textarea {
+        background: #2d3748 !important;
+        border-color: #4a5568 !important;
+        color: #e2e8f0 !important;
+    }
+    
+    .info-label {
+        color: #a0aec0 !important;
+    }
+}
+
+/* PREVENT ZOOM ON iOS */
+input,
+select {
+    font-size: 16px !important;
+}
+
+/* RESPONSIVE CRISPY HELP TEXT */
+.help-block {
+    font-size: 0.875rem !important;
+    color: #718096 !important;
+    margin-top: 0.5rem !important;
+    display: block !important;
+}
+</style>
+
+{% endblock %}

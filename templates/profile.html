@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Main Content -->
+    <main style="background:white;padding:clamp(2rem,8vw,3rem) 1rem;border-radius:10px 10px 0 0;margin-top:-2rem;position:relative;z-index:10;min-height:calc(100vh - 200px);">
+        <div style="max-width:1200px;margin:0 auto;padding:0 1rem;">
+            
+            <!-- Profile Header -->
+            <div style="text-align:center;padding:clamp(2rem,8vw,2.5rem) 1.5rem;background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);border-radius:12px;margin-bottom:2rem;color:white;box-shadow:0 8px 25px rgba(102,126,234,0.3);">
+                <div style="position:relative;display:inline-block;margin-bottom:1rem;">
+                    {% if employee.profile_picture %}
+                    <img src="{{ employee.profile_picture.url }}" alt="{{ employee.name.0|upper }}" style="width:clamp(100px,25vw,150px);height:clamp(100px,25vw,150px);display: flex;
+    align-items: center;
+    justify-content: center;text-align:center;border-radius:50%;object-fit:cover;border:5px solid white;box-shadow:0 6px 20px rgba(0,0,0,0.2);margin:0 auto;">
+                    {% else %}
+                    
+                    <div style="width:clamp(100px,25vw,150px);height:clamp(100px,25vw,150px);border-radius:50%;background:white;border:5px solid white;display:flex;align-items:center;justify-content:center;font-size:clamp(2rem,10vw,3rem);color:#667eea;margin:0 auto;font-weight:700;">
+                        {{ employee.name|first|upper }}
+                    </div>
+                    {% endif %}
+                </div>
+                <h1 style="font-size:clamp(1.8rem,6vw,2.5rem);margin-bottom:0.75rem;font-weight:700;line-height:1.2;">{{ employee.name }}</h1>
+                <p style="font-size:clamp(1rem,3.5vw,1.1rem);opacity:0.9;margin:0;line-height:1.5;">{{ employee.qualification|truncatewords:5 }}</p>
+            </div>
+
+            <!-- Profile Details Grid -->
+            <div style="display:grid;grid-template-columns:1fr;gap:clamp(1.5rem,5vw,2rem);margin-bottom:3rem;">
+                
+                <!-- Personal Information Card -->
+                <div style="background:#f9f9f9;border-radius:12px;padding:clamp(1.5rem,6vw,2rem);box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+                    <h3 style="color:#667eea;margin-bottom:1rem;font-size:clamp(1.2rem,4vw,1.3rem);border-bottom:2px solid #667eea;padding-bottom:0.75rem;font-weight:600;">
+                        Personal Information
+                    </h3>
+                    <div style="display:flex;flex-direction:column;gap:1rem;">
+                        <div style="display:flex;flex-direction:column;gap:0.5rem;padding:1rem;background:white;border-radius:8px;border-left:4px solid #667eea;">
+                            <span style="color:#667eea;font-weight:600;font-size:clamp(0.95rem,3vw,1rem);">Name</span>
+                            <span style="color:#333;font-size:clamp(1rem,3.2vw,1.1rem);">{{ employee.name }}</span>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:0.5rem;padding:1rem;background:white;border-radius:8px;border-left:4px solid #667eea;">
+                            <span style="color:#667eea;font-weight:600;font-size:clamp(0.95rem,3vw,1rem);">Email</span>
+                            <span style="color:#333;font-size:clamp(1rem,3.2vw,1.1rem);word-break:break-word;">{{ employee.user.email }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Card -->
+                <div style="background:#f9f9f9;border-radius:12px;padding:clamp(1.5rem,6vw,2rem);box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+                    <h3 style="color:#667eea;margin-bottom:1rem;font-size:clamp(1.2rem,4vw,1.3rem);border-bottom:2px solid #667eea;padding-bottom:0.75rem;font-weight:600;">
+                        Skills
+                    </h3>
+                    <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+                        {% for skill in skills_list %}
+                        <span style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:white;padding:clamp(0.5rem,2vw,0.6rem) clamp(1rem,4vw,1.2rem);border-radius:25px;font-size:clamp(0.85rem,2.8vw,0.95rem);font-weight:500;white-space:nowrap;box-shadow:0 2px 10px rgba(102,126,234,0.3);">
+                            {{ skill }}
+                        </span>
+                        {% empty %}
+                        <span style="color:#666;font-style:italic;font-size:clamp(0.95rem,3vw,1rem);">No skills added yet</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Qualification Card -->
+                <div style="background:#f9f9f9;border-radius:12px;padding:clamp(1.5rem,6vw,2rem);box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+                    <h3 style="color:#667eea;margin-bottom:1rem;font-size:clamp(1.2rem,4vw,1.3rem);border-bottom:2px solid #667eea;padding-bottom:0.75rem;font-weight:600;">
+                        Qualification
+                    </h3>
+                    <div style="color:#555;line-height:1.7;font-size:clamp(0.95rem,3vw,1rem);">
+                        {{ employee.highest_qualification|linebreaks }}
+                    </div>
+                </div>
+
+                <!-- Resume Card -->
+                <div style="background:#f9f9f9;border-radius:12px;padding:clamp(1.5rem,6vw,2rem);box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+                    <h3 style="color:#667eea;margin-bottom:1rem;font-size:clamp(1.2rem,4vw,1.3rem);border-bottom:2px solid #667eea;padding-bottom:0.75rem;font-weight:600;">
+                        Resume
+                    </h3>
+                    {% if employee.resume %}
+                    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+                        <div style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:white;padding:clamp(1.5rem,6vw,2rem);border-radius:12px;text-align:center;box-shadow:0 6px 20px rgba(102,126,234,0.3);">
+                            <div style="font-size:clamp(2rem,8vw,2.5rem);margin-bottom:0.75rem;">📄</div>
+                            <div style="font-weight:600;font-size:clamp(1rem,3.5vw,1.2rem);margin-bottom:0.25rem;">{{ employee.resume.name|truncatechars:30 }}</div>
+                            <div style="font-size:clamp(0.8rem,2.5vw,0.9rem);opacity:0.9;">{{ employee.resume.size|filesizeformat }}</div>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:1rem;">
+                            <a href="{{ employee.resume.url }}" style="display:flex;justify-content:center;padding:clamp(1rem,3vw,1.1rem) clamp(1.5rem,6vw,2rem);background:#667eea;color:white;text-decoration:none;border-radius:8px;font-weight:600;transition:all 0.3s;box-shadow:0 4px 15px rgba(102,126,234,0.3);text-align:center;" target="_blank">
+                                View Resume
+                            </a>
+                            <a href="{{ employee.resume.url }}" download style="display:flex;justify-content:center;padding:clamp(1rem,3vw,1.1rem) clamp(1.5rem,6vw,2rem);background:#764ba2;color:white;text-decoration:none;border-radius:8px;font-weight:600;transition:all 0.3s;box-shadow:0 4px 15px rgba(118,75,162,0.3);text-align:center;">
+                                Download Resume
+                            </a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div style="text-align:center;padding:clamp(2rem,8vw,3rem);color:#666;">
+                        <div style="font-size:clamp(3rem,12vw,4rem);margin-bottom:1rem;">📄</div>
+                        <div style="font-size:clamp(1rem,3.5vw,1.2rem);font-style:italic;font-weight:500;">No resume uploaded yet</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;margin-bottom:3rem;text-align:center;">
+                {% if request.user == employee.user %}
+                <a href="{% url 'edit_profile' %}" style="display:inline-flex;align-items:center;padding:clamp(1rem,3vw,1.1rem) clamp(2rem,6vw,3rem);background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:white;text-decoration:none;border-radius:25px;font-weight:600;font-size:clamp(1rem,3.2vw,1.1rem);transition:all 0.3s;box-shadow:0 6px 20px rgba(102,126,234,0.4);width:100%;max-width:300px;text-align:center;">
+                    Edit Profile
+                </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </main>
+{% endblock %}
