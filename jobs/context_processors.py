@@ -1,12 +1,13 @@
 from .models import Jobs,Application,Employee
 def get_jobs(request):
+    user = getattr(request, "user", None)
     fil_jobs_count=0
     fil_jobs_active=None
     fil_jobs_closed=None
     total_jobs=[]
     total_employee=[]
     fil_appli_active=None
-    if request.user.is_authenticated:
+    if user and user.is_authenticated:
         fil_jobs=Jobs.objects.filter(employer=request.user)
         fil_jobs_count=Jobs.objects.filter(employer=request.user).count()
         fil_appli_active=Application.objects.filter(job__employer=request.user).count()
